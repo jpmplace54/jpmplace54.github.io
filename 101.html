@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ประวัติห้อง 101</h1>
+    <h2>ข้อมูลผู้พักอาศัย</h2>
+    <div>ชื่อ-นามสกุล : นาย โต๊ะ เก้าอี้</div>
+    <div>เลขห้อง : 101</div>
+    <div>บัตรประชาชน : xxxxxxxxxxxxx</div>
+    <div id="roomList"></div>
+
+    <h2>มกราคม 2568</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ประเภทบิล</th>
+                <th>จำนวนหน่วยเดือนปัจจุบัน</th>
+                <th>จำนวนหน่วยเดือนที่แล้ว</th>
+                <th>จำนวนหน่วยที่ใช้</th>
+                <th>ยอดชำระ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>ค่าไฟ</th>
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+                <td>xxx.-</td>
+            </tr>
+
+            <tr>
+                <th>ค่าน้ำ</th>
+                <td>10</td>
+                <td>0</td>
+                <td>10</td>
+                <td>xxx.-</td>
+            </tr>
+
+            <tr>
+                <th>ค่าห้อง</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>xxx.-</td>
+            </tr>
+
+            <tr>
+                <th>ยอดรวม</th>
+                <td>-</td>
+                <td>-</td>
+                <td>20</td>
+                <td>xxx.-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="https://heavensxnt.github.io/edit.html">✏️</a>
+    <a href="https://heavensxnt.github.io/delete.html">🗑️</a>
+    <button id="shareBtn">🔗</button>
+    <button id="printBtn">🖨️</button>
+    <script>
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+      if (navigator.share) {
+        try { await navigator.share({ title:'Check this out!', text:'Cool page:', url:window.location.href }); }
+        catch(e){ console.log('Share cancelled'); }
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    });
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    const rooms = ["สถานะ "];
+    const savedData = JSON.parse(localStorage.getItem('paymentStatus') || '{}');
+    const roomList = document.getElementById('roomList');
+    function renderRooms() {
+      roomList.innerHTML = '';
+      rooms.forEach(room => {
+        const isPaid = savedData[room] || false;
+        const div = document.createElement('div'); div.className='room';
+        const name = document.createElement('span'); name.textContent = room;
+        const btn = document.createElement('button');
+        btn.textContent = isPaid?'ชำระแล้ว':'ค้างค่าชำระ';
+        btn.className = 'status ' + (isPaid?'paid':'unpaid');
+        btn.addEventListener('click', () => {
+          savedData[room] = !isPaid; localStorage.setItem('paymentStatus', JSON.stringify(savedData)); renderRooms();
+        });
+        div.append(name, btn); roomList.appendChild(div);
+      });
+    }
+    renderRooms();
+    </script>
+</body>
+
+</html>
+
+
+
+
+
