@@ -1,8 +1,0 @@
-input[type="text"], input[type="number"] {
-  line-height: normal;   /* fixes text baseline issue */
-  vertical-align: middle;
-  height: 30px;          /* adjust as needed */
-  padding: 4px 8px;      /* keep spacing consistent */
-  font-size: 14px;       /* or whatever size you use */
-  box-sizing: border-box;
-}
