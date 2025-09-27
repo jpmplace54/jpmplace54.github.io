@@ -219,8 +219,8 @@
                     try {
                         await navigator.share({
                             files: [file],
-                            title: 'ยอดชำระห้อง 101',
-                            text: 'นี่คือยอดชำระประจำเดือน',
+                            title: 'ยอดชำระห้อง',
+                            text: 'ยอดชำระประจำเดือน',
                         });
                     } catch (err) {
                         console.log('Share cancelled or failed', err);
@@ -230,7 +230,7 @@
                     const url = URL.createObjectURL(file);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'room101.png';
+                    a.download = 'ค่าไฟ ค่าน้ำ ค่าห้อง.png';
                     a.click();
                     URL.revokeObjectURL(url);
                     alert('รูปภาพถูกดาวน์โหลดแล้ว! คุณสามารถแชร์ไฟล์ได้.');
@@ -309,4 +309,5 @@
     </script>
 </body>
 </html>
+
 
