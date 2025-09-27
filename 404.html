@@ -303,6 +303,38 @@
             });
         }
         renderRooms();
+                // ----------------------------
+        // Save & Restore Input Values
+        // ----------------------------
+
+        // Save all inputs automatically when changed
+        function saveInputs() {
+            document.querySelectorAll("input").forEach(input => {
+                localStorage.setItem(input.id, input.value);
+            });
+        }
+
+        // Load saved inputs on page load
+        function loadInputs() {
+            document.querySelectorAll("input").forEach(input => {
+                if (localStorage.getItem(input.id)) {
+                    input.value = localStorage.getItem(input.id);
+                }
+            });
+            // recalc after load
+            calculateElec();
+            calculateWater();
+            calculatePrice();
+        }
+
+        // Attach event listener to all inputs
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", saveInputs);
+        });
+
+        // Run when page loads
+        window.addEventListener("load", loadInputs);
     </script>
 </body>
+
 </html>
