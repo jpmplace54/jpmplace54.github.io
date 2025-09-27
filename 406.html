@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="../index.css">
+</head>
+<body>
+    <h1>ประวัติห้อง <span id="headerRoom">406</span></h1>
+    <h2>ข้อมูลผู้พักอาศัย</h2>
+    <div>ชื่อ-นามสกุล : <span id="residentName">คุณ สุริยา วรรณะวิไล</span></div>
+    <div>เลขห้อง : <span id="roomNumber">406</span></div>
+    <div>วันที่เข้าพัก : <span id="idCard">28/9/2568</span></div>
+    <div id="roomList"></div>
+    <h2>กันยายน 2568</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ประเภทบิล</th>
+                <th>จำนวนหน่วยเดือนปัจจุบัน</th>
+                <th>จำนวนหน่วยเดือนที่แล้ว</th>
+                <th>จำนวนหน่วยที่ใช้</th>
+                <th>ยอดชำระ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>ค่าไฟ (หน่วยละ 8 บาท)</th>
+                   <div class="calcElec">
+                    <td><input id="a" type="number" placeholder="หน่วย เดือนนี้" step="any"></td>
+                    <td><input id="b" type="number" placeholder="หน่วย เดือนที่แล้ว" step="any"></td>
+                    <td><input id="output1" type="number" readonly></td>
+                    <td><input id="ElectricPrice" type="text" readonly></td>
+                    </div> 
+            </tr>
+
+            <tr>
+                <th>ค่าน้ำ (หน่วยละ 19 บาท)</th>
+                <div class="calcWater">
+                    <td><input id="c" type="number" placeholder="หน่วย เดือนนี้" step="any"></td>
+                    <td><input id="d" type="number" placeholder="หน่วย เดือนที่แล้ว" step="any"></td>
+                    <td><input id="output2" type="text" readonly></td>
+                    <td><input id="WaterPrice" type="text" readonly></td>
+                </div>
+                
+            </tr>
+
+            <tr>
+                <th>ค่าห้อง</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td><input id="RoomPrice" placeholder = "ค่าห้อง" type="text"></td>
+            </tr>
+
+            <tr>
+                <th>ยอดรวม</th>
+                <td>-</td>
+                <td>-</td>
+                <div class="Total">
+                    <td><input id="TotalUnit" type="text" step = "any" readonly></td>
+                </div>
+                <td><input id="TotalPrice" type="text" readonly></td>
+            </tr>
+        </tbody>
+    </table>
+<!--
+    <table>
+        <thead>
+            <tr>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+                <th>+</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+
+            <tr>
+                <th>+</th>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+                <td>+</td>
+            </tr>
+        </tbody>
+    </table> -->
+    <button id="editBtn">✏️</button>
+    <button id="saveBtn" style="display:none;">💾</button>
+    <button id="deleteBtn">🗑️</button>
+    <button id="shareBtn">🔗</button>
+    <button id="printBtn">🖨️</button>
+    <span><img src="../pics&icons/QR_code.jpg" width="300" height = "400"></span>
+    
+    <script>
+        // Calculator
+        // Calculate Electric Unit
+        function calculateElec() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const output1 = document.getElementById('output1');
+            if (!isNaN(a) && !isNaN(b)){
+                output1.value = a-b;
+            }
+            else {
+                output1.value = "ผิดพลาด";
+            }
+            calculateTotalUnit()
+            calculatePrice()
+        }
+        document.getElementById('a').addEventListener('input', calculateElec);
+        document.getElementById('b').addEventListener('input', calculateElec);
+
+        // Calculate Water Unit
+        function calculateWater() {
+            const c = parseFloat(document.getElementById('c').value);
+            const d = parseFloat(document.getElementById('d').value);
+            const output2 = document.getElementById('output2');
+            if (!isNaN(c) && !isNaN(d)){
+                output2.value = (c-d);
+            }
+            else {
+                output2.value = "ผิดพลาด";
+            }
+            calculateTotalUnit()
+            calculatePrice()
+        }
+        document.getElementById('c').addEventListener('input', calculateWater);
+        document.getElementById('d').addEventListener('input', calculateWater);
+
+        // Calculate Total Unit 
+        function calculateTotalUnit(){
+            const output1 = parseFloat(document.getElementById('output1').value);
+            const output2 = parseFloat(document.getElementById('output2').value);
+            const TotalUnit = document.getElementById('TotalUnit');
+            if (!isNaN(output1) && !isNaN(output2)){
+                TotalUnit.value = output1 + output2 + ' หน่วย';
+            }
+            else {
+                TotalUnit.value = "ผิดพลาด";
+            }
+        }
+        document.getElementById('output1').addEventListener('input', calculateTotalUnit);
+        document.getElementById('output2').addEventListener('input', calculateTotalUnit);
+
+        // Calculate Price
+        function calculatePrice(){
+            const output1 = parseFloat(document.getElementById('output1').value);
+            const output2 = parseFloat(document.getElementById('output2').value);
+            const RoomPrice = parseFloat(document.getElementById('RoomPrice').value);
+            const ElectricPrice = document.getElementById('ElectricPrice');
+            const WaterPrice = document.getElementById('WaterPrice');
+            const TotalPrice = document.getElementById('TotalPrice');
+            if(!isNaN(output1) && !isNaN(output2)){
+                ElectricPrice.value = (output1*8) + ' บาท';
+                WaterPrice.value = (output2*19) + ' บาท';
+            }
+            else{
+                ElectricPrice.value = "ผิดพลาด";
+                WaterPrice.value = "ผิดพลาด";
+            }
+
+            if(!isNaN(output1) && !isNaN(output2) && !isNaN(RoomPrice)){
+                TotalPrice.value = (output1*8) + (output2*19) + RoomPrice + ' บาท';
+            }
+            else{
+                TotalPrice.value = "ผิดพลาด";
+            }
+        }
+        document.getElementById('RoomPrice').addEventListener('input', calculatePrice);
+        
+
+
+
+
+        // Share Button
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+        // Capture the part you want (whole body or a specific div)
+        const target = document.body; // or document.getElementById('yourTableDiv')
+
+        html2canvas(target).then(async (canvas) => {
+            // Convert canvas to blob (image file)
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'Bills.png', { type: 'image/png' });
+
+                // Use Web Share API if supported
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'ยอดชำระห้อง',
+                            text: 'ยอดชำระประจำเดือนค่ะ',
+                        });
+                    } catch (err) {
+                        console.log('Share cancelled or failed', err);
+                    }
+                } else {
+                    // Fallback: download the image
+                    const url = URL.createObjectURL(file);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Bills.png';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    alert('รูปภาพถูกดาวน์โหลดแล้ว! คุณสามารถแชร์ไฟล์ได้.');
+                }
+            });
+        });
+    });
+
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+        // Edit & Save Button
+        const editBtn = document.getElementById('editBtn');
+        const saveBtn = document.getElementById('saveBtn');
+
+        const residentName = document.getElementById('residentName');
+        const roomNumber = document.getElementById('roomNumber');
+        const idCard = document.getElementById('idCard');
+        const headerRoom = document.getElementById('headerRoom');
+
+        let editing = false;
+
+        editBtn.addEventListener('click', () => {
+            if(!editing){
+                // Replace text with input fields
+                residentName.innerHTML = `<input type="text" id="editName" value="${residentName.textContent}">`;
+                roomNumber.innerHTML = `<input type="text" id="editRoom" value="${roomNumber.textContent}">`;
+                idCard.innerHTML = `<input type="text" id="editIdCard" value="${idCard.textContent}">`;
+                headerRoom.innerHTML = `<input type="text" id="editHeaderRoom" value="${headerRoom.textContent}">`;
+
+                // Toggle buttons
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline';
+                editing = true;
+            }
+        });
+
+        saveBtn.addEventListener('click', () => {
+            // Get values from input fields
+            const newName = document.getElementById('editName').value;
+            const newRoom = document.getElementById('editRoom').value;
+            const newIdCard = document.getElementById('editIdCard').value;
+            const newHeaderRoom = document.getElementById('editHeaderRoom').value;
+
+            // Update spans with new values
+            residentName.textContent = newName;
+            roomNumber.textContent = newRoom;
+            idCard.textContent = newIdCard;
+            headerRoom.textContent = newHeaderRoom;
+
+            // Toggle buttons back
+            saveBtn.style.display = 'none';
+            editBtn.style.display = 'inline';
+            editing = false;
+        });
+
+        // Payment status
+        const rooms = ["สถานะ "];
+        const savedData = JSON.parse(localStorage.getItem('paymentStatus') || '{}');
+        const roomList = document.getElementById('roomList');
+        function renderRooms() {
+        roomList.innerHTML = '';
+        rooms.forEach(room => {
+            const isPaid = savedData[room] || false;
+            const div = document.createElement('div'); div.className='room';
+            const name = document.createElement('span'); name.textContent = room;
+            const btn = document.createElement('button');
+            btn.textContent = isPaid?'ชำระแล้ว':'ค้างค่าชำระ';
+            btn.className = 'status ' + (isPaid?'paid':'unpaid');
+            btn.addEventListener('click', () => {
+            savedData[room] = !isPaid; localStorage.setItem('paymentStatus', JSON.stringify(savedData)); renderRooms();
+                });
+            div.append(name, btn); roomList.appendChild(div);
+            });
+        }
+        renderRooms();
+    </script>
+</body>
+</html>
