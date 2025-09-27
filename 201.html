@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <h1>ประวัติห้อง <span id="headerRoom">201</span></h1>
+    <h1>ประวัติห้อง <span id="headerRoom">1</span></h1>
     <h2>ข้อมูลผู้พักอาศัย</h2>
-    <div>ชื่อ-นามสกุล : <span id="residentName">K. NAN TIN NILAR WIN MYANMAR</span></div>
-    <div>เลขห้อง : <span id="roomNumber">201</span></div>
+    <div>ชื่อ-นามสกุล : <span id="residentName">คุณ ณัฐพงษ์ กรรณ์เกษมสุข </span></div>
+    <div>เลขห้อง : <span id="roomNumber">1</span></div>
     <div>วันที่เข้าพัก : <span id="idCard">28/9/2568</span></div>
     <div id="roomList"></div>
     <h2>กันยายน 2568</h2>
@@ -303,6 +303,39 @@
             });
         }
         renderRooms();
+
+                // ----------------------------
+        // Save & Restore Input Values
+        // ----------------------------
+
+        // Save all inputs automatically when changed
+        function saveInputs() {
+            document.querySelectorAll("input").forEach(input => {
+                localStorage.setItem(input.id, input.value);
+            });
+        }
+
+        // Load saved inputs on page load
+        function loadInputs() {
+            document.querySelectorAll("input").forEach(input => {
+                if (localStorage.getItem(input.id)) {
+                    input.value = localStorage.getItem(input.id);
+                }
+            });
+            // recalc after load
+            calculateElec();
+            calculateWater();
+            calculatePrice();
+        }
+
+        // Attach event listener to all inputs
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", saveInputs);
+        });
+
+        // Run when page loads
+        window.addEventListener("load", loadInputs);
     </script>
 </body>
+
 </html>
