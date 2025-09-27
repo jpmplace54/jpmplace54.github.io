@@ -13,7 +13,6 @@
     <div>เลขห้อง : <span id="roomNumber">101</span></div>
     <div>บัตรประชาชน : <span id="idCard">xxxxxxxxxxxxx</span></div>
     <div id="roomList"></div>
-
     <h2>กันยายน 2568</h2>
     <table>
         <thead>
@@ -118,7 +117,7 @@
     <button id="deleteBtn">🗑️</button>
     <button id="shareBtn">🔗</button>
     <button id="printBtn">🖨️</button>
-    <br><img src="QR_code.jpg" width="300" height = "400"><br>
+    <img src="QR_code.jpg" width="300" height = "400">
     
     <script>
         // Calculator
@@ -209,7 +208,7 @@
         html2canvas(target).then(async (canvas) => {
             // Convert canvas to blob (image file)
             canvas.toBlob(async (blob) => {
-                const file = new File([blob], 'room101.png', { type: 'image/png' });
+                const file = new File([blob], 'Bills.png', { type: 'image/png' });
 
                 // Use Web Share API if supported
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -217,7 +216,7 @@
                         await navigator.share({
                             files: [file],
                             title: 'ยอดชำระห้อง',
-                            text: 'ยอดชำระประจำเดือน',
+                            text: 'ยอดชำระประจำเดือนค่ะ',
                         });
                     } catch (err) {
                         console.log('Share cancelled or failed', err);
@@ -306,7 +305,3 @@
     </script>
 </body>
 </html>
-
-
-
-
